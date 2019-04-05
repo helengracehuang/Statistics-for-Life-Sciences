@@ -1,0 +1,55 @@
+---
+title: 'Lab 5: Confounding and Sampling'
+author: "Oct 30, 2017"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+------
+
+**\noindent 1. Consider the `state.x77` pre-loaded R dataset that presents some statistics about the fifty states, published by the Bureau of the Census in 1977. We will consider the relationships between life expectency, income and illiteracy in this data.**
+
+1a. Convert the `state.x77` data set to a 'data frame' format using the command `st = as.data.frame(state.x77)`. What is the dimension of `st` (use the `dim` command)? Describe the first four column variables in the data (very briefly in words, but don't just list them). 
+
+1b. Plot life expectency, `Life Exp`, against `Income` in one plot and `Life Exp` against `Illiteracy` in another plot. (`Life Exp` should be on the y axis). Add a trend line to the plots as described in the note at the end of this lab. Use the `par(mfrow = c(1,2))` command so that your plots show up next to eachother. Title the plots appropriately using the `main` argument in `plot`. In a sentence, compare the relationships shown in the plots. 
+
+```{r, echo=TRUE}
+#a
+st = as.data.frame(state.x77)
+dim(st)
+
+#b
+par(mfrow = c(1,2)) #putting the two graphs side-by-side together
+plot(st$Income, st$`Life Exp`, main = "Life Expectency vs. Income", xlab = "Income", ylab = "Life Expectancy")
+abline(lm(st$`Life Exp` ~ st$Income), col = "blue")
+plot(st$Illiteracy, st$`Life Exp`, main = "Life Expectency vs. Illiteracy", xlab = "Illiteracy", ylab = "Life Expectancy")
+abline(lm(st$`Life Exp` ~ st$Illiteracy), col = "blue")
+```
+
+1c. Create plots of `Life Exp` vs. `Illiteracy` for 1) only the states with below-average `Income` and 2) Only the states with above-average `Income`. Again, add a trend line and appropriate title to each plot and use the `par(mfrow = c(1,2))` to show the plots side-by-side. 
+    Repeat for `Life Exp` vs. `Income`, broken down by below and above-average `Illiteracy`.
+    In 2-3 sentences: Describe how the relationships shown in 1b do or do not persist in these plots.
+
+
+```{r}
+#c
+st1 = subset(st, Income < mean(Income))
+st2 = subset(st, Income >= mean(Income))
+par(mfrow = c(1,2))
+plot(st1$Illiteracy, st1$`Life Exp`, main = "Life Expectency vs. Illiteracy, Low Income", xlab = "Illiteracy", ylab = "Life Expectancy")
+abline(lm(st1$`Life Exp` ~ st1$Illiteracy), col = "blue")
+plot(st2$Illiteracy, st2$`Life Exp`, main = "Life Expectency vs. Illiteracy, High Income", xlab = "Illiteracy", ylab = "Life Expectancy")
+abline(lm(st2$`Life Exp` ~ st2$Illiteracy), col = "red")
+
+st3 = subset(st, Illiteracy < mean(Illiteracy))
+st4 = subset(st, Illiteracy >= mean(Illiteracy))
+par(mfrow = c(1,2))
+plot(st3$Income, st3$`Life Exp`, main = "Life Expectency vs. Income, Low Illiteracy", xlab = "Income", ylab = "Life Expectancy")
+abline(lm(st3$`Life Exp` ~ st3$Income), col = "blue")
+plot(st4$Income, st4$`Life Exp`, main = "Life Expectency vs. Income, High Illiteracy", xlab = "Income", ylab = "Life Expectancy")
+abline(lm(st4$`Life Exp` ~ st4$Income), col = "red")
+```
+
+

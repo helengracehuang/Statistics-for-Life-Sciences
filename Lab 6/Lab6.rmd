@@ -1,0 +1,23 @@
+---
+title: 'Lab 6:Five Number Summaries and Two Means Comparison'
+author: 'Helen Huang'
+output: pdf_document
+---
+
+**Issue the command df<-data.frame(PlantGrowth). Our goal is to see if Treatment2 helped plant growth compared with the Control group.**
+
+
+
+##1a Give five number summaries and the IQR of plant growth in Treatment2 and the Control Group. Make side-by-side boxplot (Don't generate two separate plots on top of each other), that summarizes these twelve numbers.Whatever functions you decide to use for the 5 number summary, don't worry about options - just use defaults. (Use names=c("name1", "name2") to label groups in your boxplot ).
+
+```{r, tidy=TRUE}
+
+```
+
+
+##1b Suppose we want to test the null hypothesis that the two treatments have the same effect, against the alternative that treatment2 is better. Calculate your standardize test statistic, give its p-value (according to normal distribution even though it is actually a t-stat) and finally, state your conclusion. (The SE for the test statistic, unlike for proportions, assume different variances of the two groups rather than pooled (see day10 slide 10)).
+```{r ,tidy=TRUE}
+
+```
+
+

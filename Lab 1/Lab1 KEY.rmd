@@ -1,0 +1,126 @@
+---
+title: "STAT13, Lab 1 Key"
+author: "(name)"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+# 1 Installing R & R Studio
+Please install the most recent version of R & RStudio on your computer.
+If you do not have a computer, ask a friend or roommate if you can install it on theirs (you can
+uninstall it when you are done). As proof of completion, issue this command:
+
+```
+system("who", intern=TRUE)
+```
+or if you are running Windows:
+```{r, results='hide'}
+system("whoami", intern=TRUE)
+```
+
+
+
+#  Application of Basic R Rules
+## 3 Please use R as a calculator and show how to get the answers for:
+3A  
+$\frac{36^3}{7^8}$
+```{r}
+(36^3)/(7^8)
+```
+3B  
+$6833-843$
+```{r}
+6833-843
+```
+3C  
+$13^{\frac{3}{5}}$
+```{r}
+13^(3/5)
+```
+3D  
+$6^{\frac{3}{2}}$
+```{r}
+6^(3/2)
+```
+3E  
+$\frac{6791+2083-296+3359+502-6429+3834}{7}$
+
+```{r}
+(6791+2083-296+3359+502-6429+3834)/7
+```
+## 4 Vectors
+#### 4.1A Please create a numeric vector with (any) 10 elements that are not in a sequence.
+```{r}
+v1 <- c(5,7,6,3,8,1,4,9,2,0)
+v1
+```
+#### 4.1B Please create a numeric vector consisting of the even numbers from 1 to 100.
+```{r}
+v2 <- seq(2,100,2)
+v2
+```
+#### 4.1C Please write a single line of code that will generate a vector of the form -m^3, -(m-1)^3, ..., -1, 0, 1, (m-1)^3, m^3 for any m.
+```{r}
+m <- 5
+v3 <- seq(-m,m)^3
+v3
+```
+#### 4.1D Using your 10 element numeric vector from part (a), demonstrate how to divide each element by 4 and then square each the resulting values.
+```{r}
+v1 <- (v1 / 4)^2
+v1
+```
+#### 4.1E Show how to square only the 3rd and 9th elements of your 10 element numeric vector from part A(this can be done with a single line of code, no semi colons allowed). Your final result should have 10, not 2 elements and maintain their original ordering.
+```{r}
+v1[c(3,9)] <- v1[c(3,9)]^2
+v1
+```
+#### 4.2A Here are four vectors for you to create: A: (2,6,3,4,6,1,2,1,1), B: (2,3,1,1,1,3,5,8,8,7,3), C: (8,8,7,3,3,4,6,6,1,1,1), D: (2,3,1,1,7,7,5,7). Which one has the highest mean?
+```{r}
+A<-c(2,6,3,4,6,1,2,1,1)
+B<-c(2,3,1,1,1,3,5,8,8,7,3)
+C<-c(8,8,7,3,3,4,6,6,1,1,1)
+D<-c(2,3,1,1,7,7,5,7)
+
+lapply( list(A,B,C,D), mean)
+```
+Answer is C.
+*They're not expected to use lapply. Just for convenience here.  
+
+#### 4.3B Which one has the greatest standard deviation?
+```{r}
+lapply( list(A,B,C,D), sd)
+```
+Answer is C.
+
+### 5 Character (String) and Logical Vectors
+#### 5A Create a character vector which looks like this when you print it.
+```{r echo=FALSE}
+v1 <- c("stat","data","compute","schoenberg","homework","awesome","TA")
+v1
+```
+#### 5B Show how to print the only last two elements of the character vector. This requires only one line of code.
+```{r}
+tail(v1,2)
+```
+
+## 6 Data Frames
+### 6A Demonstrate that you are able to use the function data() and that you know what a data frame is by finding a built-in dataset. Please identify the dataset.
+```{r}
+data(sleep)
+```
+> This dataset shows the effect of two soporific drugs (increase in hours of sleep compared to control) on 10 patients.
+
+### 6B How many observations and how many variables does your data frame have? Use any R function to reveal this information.
+```{r}
+str(sleep)
+```
+> This data frame has 20 observations of 3 variables.
+
+### 6C Reading in CSV files: Directly load into R, the file found in http://www.ats.ucla.edu/stat/data/hsb2.csv.
+```{r}
+dat.csv <- read.csv("http://www.ats.ucla.edu/stat/data/hsb2.csv")
+```
+
+

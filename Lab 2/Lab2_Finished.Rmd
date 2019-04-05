@@ -1,0 +1,74 @@
+---
+title: "STAT13 Lab2 (Need to be submitted)"
+output:
+  html_document: default
+  pdf_document: default
+date: "Due Oct. 11th (see CCLE)"
+---
+#Poblem 1 Standardizing a random variable: Any random variable can be made into a new random variable whose mean is zero and standard deviation is one. This is what we do to create our z-score, or test statistic.
+
+####1A 
+Generate a vector called x, that has 10000 elements, where each element is randomly generated with mean=5 and sd=3 from the Normal distribution (**DO NOT** display this long vector, just create it). Then, compute its mean and standard deviation using R functions.
+```{r}
+x = rnorm(n = 10000, mean = 5, sd = 3) ## generate an array named 'x' containing 10,000 random values with mean 5 and sd 3
+mean(x) ## calculate the mean of x
+sd(x) ## calculate the standard deviation of x
+```
+
+####1B 
+Create a vector called z by first making a vector of 10000 elements that are randomly simulated from a normal distribtion of 5 and standard deviation of 3, then standardize it. **DO NOT** display the vector. Finally, compute its mean and standard deviation. 
+```{r}
+z = (rnorm(n = 10000, mean = 5, sd = 3)-5)/3
+mean(z)
+sd(z)
+```
+
+#Problem 2 First hand Look at the **CLT**.
+ _An average of random variables is another random variable._ Very roughly, under some basic conditions, the CLT says as you average up more and more random variables, the more the resulting random variable becomes normally distributed (regardless of the distribution of the random variables that are being averaged).
+ 
+#When you "...", it mean that you need to fill something in there.
+
+####2A
+
+Create a vector called b, with 10,000 elements all equal to zero. Now write a loop that will simulate a single random uniform variable (from 0 to 1) and put it as an element of b, for all 10,000 elements. Finally, make a histogram of the vector b (using breaks=50), what does it look like?
+```{r, error= T}
+b	<-	rep(0,10000) ## create an array with 10,000 of 0s
+
+for(i in	1:10000){	## loop 10,000 times
+b[i]	=	mean(runif(1)) ## simulate a single random uniform variable (from 0 to 1)
+}
+hist(b, breaks=50) ## create a histogram of b with breaks of 50
+```
+
+####2B
+Create vector c the same way as you did in 2A, except that each element of c is the average of TWO random uniform variables (from 0 to 1). Make a histogram of c (using breaks=50).
+```{r, error= T}
+c	<-	rep(0,10000)
+
+for(i in	1:10000){	
+c[i]	=	mean(runif(2)) ## calculate the mean of two randomly simulated uniform variable (from 0 to 1)
+}
+hist(c, breaks=50)
+```
+
+####2C
+Create vector d the same way as you did in 2A, except that each element of d is the average of THREE random uniform variables (from 0 to 1). Make a histogram of d (using breaks=50).
+```{r, error= T}
+d	<-	rep(0,10000)
+
+for(i in	1:10000){	
+d[i]	=	mean(runif(3))
+}
+hist(d, breaks=50)
+```
+
+####2D
+Create vector e the same way as you did in 2A, except that each element of e is the average of 100 random uniform variables (from 0 to 1). Make a histogram of e (using breaks=50).
+```{r, error= T}
+e	<-	rep(0,10000)
+
+for(i in	1:10000){	
+e[i]	=	mean(runif(100))
+}
+hist(e, breaks=50)
+```

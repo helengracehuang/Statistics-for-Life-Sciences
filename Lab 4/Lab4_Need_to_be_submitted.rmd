@@ -1,0 +1,47 @@
+---
+title: "Lab_4 Due 25th Oct"
+author: "Helen Huang"
+date: "10/20/2017"
+output: html_document
+---
+
+### Question 1
+1. Create a boxplot to show people’s desire weight in this data set.
+2. Use which() function to drop all desire weights bigger than 250.
+3. Conduct a hypothesis test on wtdesire with significance level 0.05:  
+    H0: Population mean of wtdesire is equal to 154.4  
+    Ha: Population mean of wtdesire is not equal to 154.4  
+Please calculate the p value and write down if you can reject H0 in the comments
+(after #).
+Hint: Use t distribution and try 2*pt(…).
+
+```{r setup, include=TRUE}
+#1
+dat <- read.csv(file="cdc.csv", header=TRUE, sep=",")
+boxplot(dat["wtdesire"])
+#2
+index = which(dat["wtdesire"] <=250)
+dat = dat[index,]
+boxplot(dat["wtdesire"])
+#3
+n = length(dat$wtdesire)
+t = (mean(dat$wtdesire)-154.4)/(sd(dat$wtdesire)/sqrt(n))
+p = 2*(pt(t, n-1))
+#We fail to reject the null hypothesis as there is no evidence against the null hypothesis since p=1.46323686455904, which is way larger than the significance level 0.05.
+```
+
+## The following part is optional 
+
+4. Conduct a hypothesis test on wtdesire with significance level 0.05:  
+    H0: Population mean of wtdesire is equal to 153.7  
+    Ha: Population mean of wtdesire is not equal to 153.7  
+Please calculate the p value and write down if you can reject H0 in the comments
+(after #).
+Hint: Use t distribution and try 2*(1-pt(…)).
+
+```{r 4}
+t2 = (mean(dat$wtdesire)-153.7)/(sd(dat$wtdesire)/sqrt(n))
+p2 = 2*(1-pt(t2, n-1))
+p3 = 2*(pt(-5.07, 59))
+#There is strong evidence against the null hypothesis, since the p value is very small, only 0.00012434907449177, way smaller than the significance level 0.05.
+```

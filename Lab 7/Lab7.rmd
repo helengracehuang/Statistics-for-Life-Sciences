@@ -1,0 +1,61 @@
+---
+title: 'Lab 7: Unpaired vs. Paired'
+author: "Helen Huang"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+In this lab we will investigate what happens when we analyze data using unpaired vs. paired analysis. We will see how the paired analysis can increase the strength of our evidence.
+
+We will again use the built-in `ChickWeight` data. Our question of interest is whether the average weight of chicks changes between time 16 and 18.
+
+----
+**1. Unpaired:** Difference of means
+
+**1a.** Given the queston of interest above, state the null and alternative hypothesis in words or symbols.
+
+```{r}
+#1a
+#Null hypothesis (H0): The difference of the average weights of chicken at time 16 and time 18 is zero.
+#Alternative hypothesis (Ha): The difference of the average weights of chicken at time 16 and time 18 is not zero.
+```
+
+**1b.** Find a 95% confidence interval for the difference between the average chick weight at time 16 and the average chick weight at time 18. (Your observed statistic should be the average at time 18 minus the average at time 16.) Based on your confidence interval, say how strong your evidence is against your null hypothesis (no evidence, weak, strong, very strong).
+
+```{r}
+#Starter code to extract the data you need for this lab:
+#If pasting this code causes error, get it from the .rmd version of this file on CCLE
+c16 = subset(ChickWeight, Time == 16)
+c18 = subset(ChickWeight, Time == 18)
+weight16  = c16$weight #weights for chicks at time 16
+weight18  = c18$weight #weights for chicks at time 18
+n1 = n2 = nrow(c16) #there are 47 chicks in the data set at these times
+#1b
+obs.stat = mean(weight18)-mean(weight16)
+se = sqrt(sd(weight18)^2/n1+sd(weight16)^2/n2)
+CI1 = c(obs.stat - 1.96*se, obs.stat + 1.96*se)
+CI1
+#There is strong evidence against the null hypothesis.
+```
+
+**2. Paired:** Mean difference  
+Now you will analyze the data as paired. Specifically, you will analyze the average *difference* in the weight of each chick from time 16 to time 18. (First create a vector of differences by subtracting weights at time 16 from weights at time 18.)
+
+**2a.**  State your null and alternative hypothesis in words or symbols.
+
+```{r}
+#Null hypothesis : The average difference in weight from time 16 to time 18 is zero.
+#Alternative hypothesis: The average difference in weight from time 16 to time 18 is not zero.
+```
+
+**2b.**  Find a 95% confidence interval for the average difference in weight from time 16 to time 18. Based on your confidence interval, say how strong your evidence is against your null hypothesis (no evidence, weak, strong, very strong).
+
+```{r}
+diff1 = weight18-weight16
+obs.stat = mean(diff1)
+se = sd(diff1)/sqrt(n1)
+CI2 = c(obs.stat - 1.96*se, obs.stat + 1.96*se)
+CI2
+#There is very strong evidence against the null hypothesis.
+```

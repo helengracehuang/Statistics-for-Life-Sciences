@@ -1,0 +1,92 @@
+---
+title: "lab_3"
+date: "10/16/2017"
+output: pdf_document
+---
+
+## Part 1
+
+Let's use R to revisit the ``Can Dogs Sniff Out Cancer'' example from day 5 lecture. We want to know if a dog, Marine, is randomly guessing which of 5 samples is from a cancer patient or if she really can smell which one it is.
+As in lecture notes:
+
+
+Null hypothesis: $\pi = 0.2$
+
+
+Alternative hypothesis: $\pi > 0.2$
+
+1a.  Suppose we just guess which bag is from the cancer patient. Use R to generate a random outcome from such a trial. (hint: `rbinom`)
+
+1b.  Use a single command in R to generate 3 such trials. How many successes did you get? What is your success rate (percentage)? Repeat for 100 trials, for 10000 trials.
+
+1c.  Plot a histogram of the outcomes of the 10000 trials with breaks = 2. In the title of your histogram include the mean and standard deviation of your outcome vector. (hint: use `paste` and `round` to make the title)
+
+```{r 1a_1c, echo =F, results = 'hide'}
+#a
+a <- rbinom(1, 1, 0.2)
+success.total <- sum(a)
+success.rate <- mean(a)
+success.total; success.rate
+
+#b
+b <- rbinom(3, 1, 0.2)
+success.total <- sum(b)
+success.rate <- mean(b)
+success.total; success.rate
+
+b <- rbinom(100, 1, 0.2)
+success.total <- sum(b)
+success.rate <- mean(b)
+success.total; success.rate
+
+b <- rbinom(10000, 1, 0.2)
+success.total <- sum(b)
+success.rate <- mean(b)
+success.total; success.rate
+
+#c
+hist(b, breaks=2, 
+     main = paste("mean", round(mean(b), 3), ";", "sd", round(sd(r), 3))) 
+##"round(mean(), 3)" means that we keep 3 decimal places for the mean value.
+```
+
+1d. In 25/33 trials, Marine correctly identified the bag from the cancer patient. If Marine is guessing, in how many of those trials did we *expect* her to detect the bag from the cancer patient? (Exact or approximate answer is fine). Use R to simulate 10 repetitions of 33 trials and store the number of success in each repetition in a vector called y. Compare the mean of y to the expected mean.
+
+```{r 1_d}
+y <- rbinom(10, 33, 0.2)
+mean(y)
+```
+
+1e. Repeat the simulation from 1d for 10000 repetitions, storing your results in a vector called z (WITHOUT showing z in your output)
+and plot a histogram of z with its mean and standard deviation in the title. 
+
+```{r 1e}
+z <- rbinom(10000, 33, 0.2)
+hist(z, main = paste("mean", round(mean(z), 2), ";", "sd", round(sd(z), 2)))
+```
+
+1f. Using vector z, calculate the p-value associated with Marine's performance if the null hypothesis for her performance is .2 (as given). 
+
+```{r 1f}
+p = mean(z>25)
+print(p)
+```
+?rbinom()   ##question mark (?) before function tells you realtive functions and the parameters to go into the bracket
+
+## Part 2. Normal vs. Binomial
+
+2a) Generate a vector r that is 1000 draws from a binomial distribution with 10 trials and probability of success 1/9. Repeat for 30, 100, and 300 trials using the same success probability. Plot histograms of all four on ONE window using the `par(mfrow)` command mentioned in the notes above. The title of each plot should indicate the number of trials. 
+
+```{r 2a}
+r <- rbinom(1000, 10, 1/9)
+hist(r, main = "10 trials")
+r <- rbinom(1000, 30, 1/9)
+hist(r, main = "30 trials")
+r <- rbinom(1000, 100, 1/9)
+hist(r, main = "100 trials")
+r <- rbinom(1000, 300, 1/9)
+hist(r, main = "300 trials")
+```
+
+What is happening to the distributions as the trials grow in size? 
+##the distribution looks more and more like a normal distribution as the trials grow in size.

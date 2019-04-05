@@ -1,0 +1,94 @@
+---
+title: 'Lab #8: Correlation and Linear Models'
+author: "Helen Huang"
+date: "11/20/2017"
+output:
+  html_document: default
+---
+
+###Due: Nov 22nd
+In this lab we will do calculations to better understand the relationship between two quantitative variables: wind speed and temperature. We will use the `airquality` dataset in R. It has environmental measurements from May to September in New York. 
+
+You will need some concepts and formulas from day 13 and day 14 lecture slides.  
+
+day 13: http://www.stat.ucla.edu/~frederic/13/F16/day14.pdf
+
+day 14: http://www.stat.ucla.edu/~frederic/13/F16/day13.pdf 
+
+
+##1. Correlation and r^2
+
+1a. Create a scatter plot of Temp vs. Wind (use `plot` with `x = airquality$Wind` and `y = airquality$Temp`). In a  sentence, write if this appears to be a positive or negative relationship and how strong it appears to be. 
+
+```{r}
+df<-data.frame(airquality)
+plot(airquality$Wind, airquality$Temp, main = "Temp vs. Wind", xlab = "Wind", ylab = "Temp")
+abline(lm(airquality$Temp ~ airquality$Wind), col = "red")
+#This appears to be a negative relationship and it appears to be moderate.
+```
+
+
+1b. Calculate the correlation betwen wind and temperature *from scratch* (i.e. you can use the `sum`, `mean`, and `sd` commands in R, but no credit will be given for using a command like `cor` to do the calculation for you. See slide 2 of day 14 lecture.) Based on that calculation, how strong is the assocation between wind and temperature? (See slide 18 of day 13 lecture.)
+
+```{r}
+mean_w = mean(airquality$Wind)
+mean_t = mean(airquality$Temp)
+sd_w = sd(airquality$Wind)
+sd_t = sd(airquality$Temp)
+n = length(airquality$Wind)
+r = sum(((airquality$Wind-mean_w)/sd_w)*((airquality$Temp-mean_t)/sd_t))/(n-1)
+r
+#The association is only moderate.
+```
+
+
+1c. Using your answer from 1b, calculate and **interpret** the $r^2$ value of the relationship. 
+
+```{r}
+determination = r^2
+determination
+#The coefficient of determination indicates that 20.9% of total variation in the temperature can be explained by its linear association with the wind.
+```
+
+
+##2. Linear Model
+
+2a. We will fit a linear model to the data above *from scratch*. Find the appropriate slope and intercept and write your model formula. (See slide 38 of day 14 lecture.) No credit will be given for using a command like `lm` to do the calculation for you.
+
+```{r}
+slope = r*sd_t/sd_w
+slope
+intercept = mean_t-slope*mean_w
+intercept
+#Temperature = 90.135 - 1.2305*(Wind)
+```
+
+
+2b. Based on the linear model from 2a, what do we expect the temperature to be when the wind is i) 0 mph? ii) 10 mph? iii) 30 mph? Why should we be careful when using our model to predict temperature when wind is 30mph? 
+
+```{r}
+Temp_0 = 90.135 - 1.2305*0
+Temp_0
+Temp_10 = 90.135 - 1.2305*10
+Temp_10
+Temp_30 = 90.135 - 1.2305*30
+Temp_30
+#When the wind is 30mph, it is out of the range of our original data, which ranges from 1.7 to 20.7, so this is extrapolation.
+```
+
+
+2c. The first row of `airquality` has a wind reading of 7.4 and temperature of 67. Based on the linear model from 2a, what is the residual associated with this observation? (See slide 49 of day 13 lecture)
+
+```{r}
+Temp_7.4 = 90.135 - 1.2305*7.4
+residual = 67-Temp_7.4
+residual
+```
+
+
+(Note: While you can't use the `lm` and `cor` commands to answer the questions above, you may have used them to help check your answers.)
+
+```{r}
+cor(airquality$Temp,airquality$Wind)
+lm(airquality$Temp ~ airquality$Wind)
+```
